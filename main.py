@@ -3,10 +3,7 @@ import traceback
 
 import tcod
 
-import color
-import exceptions
-import input_handlers
-import setup_game
+from src import color, exceptions, input_handlers, setup_game
 
 
 def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
@@ -20,7 +17,7 @@ def main() -> None:
     screen_width = 80
     screen_height = 50
 
-    tileset = tcod.tileset.load_tilesheet("data/dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
+    tileset = tcod.tileset.load_tilesheet("data/Haberdash_curses_12x12.png", 16, 16, tcod.tileset.CHARMAP_CP437)
 
     handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 
@@ -28,7 +25,7 @@ def main() -> None:
         columns=screen_width,
         rows=screen_height,
         tileset=tileset,
-        title="Yet Another Roguelike Tutorial",
+        title="Chaos On Earth",
         vsync=True,
     ) as context:
         root_console = tcod.Console(screen_width, screen_height, order="F")
@@ -42,7 +39,7 @@ def main() -> None:
                     for event in tcod.event.wait():
                         context.convert_event(event)
                         handler = handler.handle_events(event)
-                except Exception:  # Handle exceptions in game.
+                except Exception:  # Handle exceptions in src.
                     traceback.print_exc()  # Print error to stderr.
                     # Then print the error to the message log.
                     if isinstance(handler, input_handlers.EventHandler):
